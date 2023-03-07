@@ -46,15 +46,13 @@ private:
 };
 
 // Put your portfolio data into this function
+//("TICKER", percentage, price, amount of shares)
 vector<Fund> getPortfolio()
 {
-	Fund FXUS("FXUS", 25, 62.02, 55); // american stocks
-	Fund FXCN("FXCN", 12.5, 3104.5, 0); // china stocks
-	Fund FXRB("FXRB", 16.666666, 18.05, 127); // russian companies euroobligations with a currency hedging
-	Fund FXGD("FXGD", 16.666666, 979, 2); // gold
-	Fund FXFA("FXFA", 16.666666, 80.22, 27); // high yeld abroad companies bonds (fallen angels)
-	Fund TMOS("TMOS", 12.5, 5.834, 300); // russian stocks
-	return { FXUS, FXCN, FXRB, FXGD, FXFA, TMOS };
+	Fund GOLD("GOLD", 10, 1.1606, 100); // gold
+	Fund TBRU("TBRU", 20, 5.316, 50); // high yeld abroad companies bonds (fallen angels)
+	Fund TMOS("TMOS", 70, 4.382, 3500); // russian stocks
+	return { GOLD, TBRU, TMOS };
 }
 
 // Prints fund ticker, percents in the portfolio, amount of your money in the fund and amount of fund units
