@@ -61,8 +61,6 @@ vector<Fund> getPortfolio()
 // for each fund in portfolio
 void printPortfolio(vector<Fund> real_portfolio)
 {
-	cout << endl << "Here's how you can build your desired portfolio: " << endl << endl;
-
 	vector<vector<string>> table = {{"Ticker"}, {"Percents"}, {"Allocated"}, {"Amount"}, {"Real Percent"}};
 	
 	int money = 0;
@@ -160,6 +158,9 @@ int main()
 {
 	double money = 0;
 	cin >> money;
+	cout << endl << "Here's your current portfolio parameters: " << endl << endl;
+	printPortfolio(getPortfolio());
+	cout << endl << "Here's how you can build your desired portfolio: " << endl << endl;
 	printPortfolio(resultAllocation(money, getPortfolio()));
 	return 0;
 }
