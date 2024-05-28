@@ -49,39 +49,58 @@ private:
 //("TICKER", percentage, price, amount of shares)
 vector<Fund> getPortfolio()
 {
-	Fund GOLD("GOLD", 10, 1.1606, 100); // gold from vim (vtb)
-	Fund SBGB("SBGB", 10, 12.315, 10); // goverment bonds from sber
-	Fund SBRB("SRGB", 5, 12.739, 10); // corporate bonds from sber
-	Fund OBLG("OBLG", 5, 134.7, 1); // corporate bonds from vim (vtb)
-	Fund TMOS("TMOS", 70, 4.382, 3500); // russian stocks from tinkoff
-	return { GOLD, SBGB, SBRB, OBLG, TMOS };
+	Fund TGLD("GOLD", 10, 8.51, 500); // gold from tinkoff
+	Fund SBGB("SBGB", 10, 11.43, 300); // goverment bonds from sber
+	Fund SBRB("SBRB", 5, 13.29, 200); // corporate bonds from sber
+	Fund OBLG("OBLG", 5, 141.42, 20); // corporate bonds from vim (vtb)
+	Fund TMOS("TMOS", 70, 6.85, 6000); // russian stocks from tinkoff
+	return { TGLD, SBGB, SBRB, OBLG, TMOS };
 }
 
 // Prints fund ticker, percents in the portfolio, amount of your money in the fund and amount of fund units
 // for each fund in portfolio
 void printPortfolio(vector<Fund> real_portfolio)
 {
-	cout.setf(ios::fixed);
-	cout <<setw(10)<< "Ticker" << "Percents" << "Overall money" << "Amount" << endl;
+	cout << endl << "Here's how you can build your desired portfolio: " << endl << endl;
+
+	vector<vector<string>> table = {{"Ticker"}, {"Percents"}, {"Allocated"}, {"Amount"}, {"Real Percent"}};
+	
 	int money = 0;
-	for (int i = 0; i < real_portfolio.size(); ++i)
+	for (size_t i = 0; i < real_portfolio.size(); ++i)
 		money += real_portfolio[i].getPrice() * static_cast<double>(real_portfolio[i].getAmount());
-	for (int i = 0; i < real_portfolio.size(); ++i)
+
+	for (size_t i = 0; i < real_portfolio.size(); ++i)
 	{
-		cout << real_portfolio[i].getTicker() << ' '
-			<< real_portfolio[i].getPercents() << ' '
-			<< real_portfolio[i].getPrice() * real_portfolio[i].getAmount() << ' '
-			<< real_portfolio[i].getAmount() << ' '
-			<< real_portfolio[i].getPrice() * real_portfolio[i].getAmount() * 100.0 / money << endl;
+		string ticker = real_portfolio[i].getTicker();
+		string percent = to_string(real_portfolio[i].getPercents());
+		string allocated = to_string(real_portfolio[i].getPrice() * real_portfolio[i].getAmount());
+		string amount = to_string(real_portfolio[i].getAmount());
+		string realPercent = to_string(real_portfolio[i].getPrice() * real_portfolio[i].getAmount() * 100.0 / money);
+
+		table[0].push_back(ticker);
+		table[1].push_back(percent);
+		table[2].push_back(allocated);
+		table[3].push_back(amount);
+		table[4].push_back(realPercent);
 	}
-	cout << money << endl;
+
+	// print values:
+	for (size_t i = 0; i < real_portfolio.size()+1; ++i) 
+	{
+	    for (size_t j = 0; j < table.size(); ++j) 
+	        cout << std::setw(15) << table[j][i];
+
+	    cout << '\n';
+	}
+
+	cout << endl << money << " rubles allocated" << endl << endl;
 }
 
 // Distributes the remaining after buying funds by the data money in the same proportions to plase them
 // somewhere instead of hold them in cash. This function is basically the reason why i made this programm
 vector<Fund> recursiveAllocation(double money, vector<Fund> portfolio, Fund min_price)
 {
-	for (int i = 0; i < portfolio.size(); ++i)
+	for (size_t i = 0; i < portfolio.size(); ++i)
 	{
 		portfolio[i].setAmount(0);
 		if (portfolio[i].getPrice() * 100 / portfolio[i].getPercents() >= money)
@@ -90,12 +109,12 @@ vector<Fund> recursiveAllocation(double money, vector<Fund> portfolio, Fund min_
 
 	double real_percents = 0;
 
-	for (int i = 0; i < portfolio.size(); ++i)
+	for (size_t i = 0; i < portfolio.size(); ++i)
 		real_percents += portfolio[i].getPercents();
 
 	double remaining_money = money;
 
-	for (int i = 0; i < portfolio.size(); ++i)
+	for (size_t i = 0; i < portfolio.size(); ++i)
 	{
 		portfolio[i].setPercents(portfolio[i].getPercents() * (100 / real_percents));
 		portfolio[i].setAmount((portfolio[i].getPercents() * money / 100) / portfolio[i].getPrice());
@@ -118,7 +137,7 @@ vector<Fund> resultAllocation(double money, vector<Fund> portfolio)
 {
 	Fund min_price = portfolio[0];
 
-	for (int i = 0; i < portfolio.size(); ++i)
+	for (size_t i = 0; i < portfolio.size(); ++i)
 	{
 		money += portfolio[i].getPrice() * static_cast<double>(portfolio[i].getAmount());
 
@@ -130,7 +149,7 @@ vector<Fund> resultAllocation(double money, vector<Fund> portfolio)
 	{
 		vector<Fund> remaining_portfolio = recursiveAllocation(money, portfolio, min_price);
 
-		for (int i = 0; i < portfolio.size(); ++i)
+		for (size_t i = 0; i < portfolio.size(); ++i)
 			portfolio[i].setAmount(remaining_portfolio[i].getAmount());
 	}
 
