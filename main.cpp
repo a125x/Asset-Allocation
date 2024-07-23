@@ -49,12 +49,13 @@ private:
 //("TICKER", percentage, price, amount of shares)
 vector<Fund> getPortfolio()
 {
-	Fund TGLD("GOLD", 10, 8.51, 500); // gold from tinkoff
-	Fund SBGB("SBGB", 10, 11.43, 300); // goverment bonds from sber
-	Fund SBRB("SBRB", 5, 13.29, 200); // corporate bonds from sber
-	Fund OBLG("OBLG", 5, 141.42, 20); // corporate bonds from vim (vtb)
-	Fund TMOS("TMOS", 70, 6.85, 6000); // russian stocks from tinkoff
-	return { TGLD, SBGB, SBRB, OBLG, TMOS };
+	Fund TGLD("GOLD",	10,	8.51,	500	);	// gold from tinkoff
+	Fund SBGB("SBGB",	10,	11.43,	300	);	// goverment bonds from sber
+	Fund SBRB("SBRB",	5,	13.29,	200	);	// corporate bonds from sber
+	Fund OBLG("OBLG",	5,	141.42,	20	);	// corporate bonds from vim (vtb)
+	Fund TMOS("TMOS",	40,	6.85,	6000	);	// russian stocks from tinkoff
+	Fund EQMX("TMOS",	30,	142.25,	69	);	// russian stocks from tinkoff
+	return { TGLD, SBGB, SBRB, OBLG, TMOS, EQMX };
 }
 
 // Prints fund ticker, percents in the portfolio, amount of your money in the fund and amount of fund units
